@@ -122,3 +122,31 @@ for (let i = 0; i < navigationLinks.length; i++) {
     }
   });
 }
+
+const modal = document.getElementById("projectModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalImage = document.getElementById("modalImage");
+const modalDescription = document.getElementById("modalDescription");
+const modalLink = document.getElementById("modalLink");
+const closeModal = document.querySelector(".modal .close");
+
+document.querySelectorAll(".project-item").forEach((item) => {
+  item.addEventListener("click", (e) => {
+    e.preventDefault();
+    modalTitle.innerText = item.querySelector(".project-title").innerText;
+    modalImage.src = item.querySelector("img").src;
+    modalDescription.innerText = "More details about " + modalTitle.innerText;
+    modalLink.href = "#"; // optional: replace with actual project link
+    modal.style.display = "block";
+  });
+});
+
+closeModal.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
