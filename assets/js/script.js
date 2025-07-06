@@ -130,16 +130,18 @@ const modalDescription = document.getElementById("modalDescription");
 const modalLink = document.getElementById("modalLink");
 const closeModal = document.querySelector(".modal .close");
 
-document.querySelectorAll(".project-item").forEach((item) => {
-  item.addEventListener("click", (e) => {
+document.querySelectorAll(".project-item > a").forEach((link) => {
+  link.addEventListener("click", (e) => {
     e.preventDefault();
+    const item = link.closest(".project-item");
     modalTitle.innerText = item.querySelector(".project-title").innerText;
     modalImage.src = item.querySelector("img").src;
     modalDescription.innerText = "More details about " + modalTitle.innerText;
-    modalLink.href = "#"; // optional: replace with actual project link
+    modalLink.href = "#";
     modal.style.display = "block";
   });
 });
+
 
 closeModal.addEventListener("click", () => {
   modal.style.display = "none";
