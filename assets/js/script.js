@@ -113,7 +113,14 @@ for (let i = 0; i < navigationLinks.length; i++) {
   });
 }
 
-
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("projectModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalDescription = document.getElementById("modalDescription");
+  const modalLink = document.getElementById("modalLink");
+  const closeModal = document.querySelector(".modal .close");
+  const slider = document.getElementById("modalSlider");
+  
 let swiperInstance; // track swiper per open
 
 document.querySelectorAll(".project-item > a").forEach((anchor) => {
