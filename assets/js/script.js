@@ -10,6 +10,11 @@ const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 // sidebar toggle functionality for mobile
 sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
 
+// testimonials variables
+const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
+const modalContainer = document.querySelector("[data-modal-container]");
+const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
+const overlay = document.querySelector("[data-overlay]");
 
 // modal toggle function
 const testimonialsModalFunc = function () {
@@ -113,14 +118,42 @@ for (let i = 0; i < navigationLinks.length; i++) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById("projectModal");
   const modalTitle = document.getElementById("modalTitle");
+  const modalImage = document.getElementById("modalImage");
   const modalDescription = document.getElementById("modalDescription");
   const modalLink = document.getElementById("modalLink");
   const closeModal = document.querySelector(".modal .close");
-  const slider = document.getElementById("modalSlider");
-  
+
+  document.querySelectorAll(".project-item > a").forEach((anchor) => {
+    anchor.addEventListener("click", (e) => {
+      e.preventDefault();
+      const item = anchor.closest(".project-item");
+
+      const title = item.querySelector(".project-title")?.innerText || "Untitled Project";
+      const image = item.querySelector("img")?.src || "";
+
+      modalTitle.innerText = title;
+      modalImage.src = image;
+      modalDescription.innerText = "Detailed view of: " + title;
+      modalLink.href = "#";
+
+      modal.style.display = "block";
+    });
+  });
+
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
 let swiperInstance; // track swiper per open
 
 document.querySelectorAll(".project-item > a").forEach((anchor) => {
@@ -174,4 +207,5 @@ document.querySelectorAll(".project-item > a").forEach((anchor) => {
 document.querySelector(".modal .close").addEventListener("click", () => {
   modal.style.display = "none";
 });
+
 
