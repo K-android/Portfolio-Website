@@ -121,23 +121,55 @@ for (let i = 0; i < navigationLinks.length; i++) {
 window.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById("projectModal");
   const modalTitle = document.getElementById("modalTitle");
-  const modalImage = document.getElementById("modalImage");
   const modalDescription = document.getElementById("modalDescription");
   const modalLink = document.getElementById("modalLink");
   const closeModal = document.querySelector(".modal .close");
+  const slider = document.getElementById("modalSlider");
+
+  let swiperInstance;
 
   document.querySelectorAll(".project-item > a").forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
       e.preventDefault();
-      const item = anchor.closest(".project-item");
 
-      const title = item.querySelector(".project-title")?.innerText || "Untitled Project";
-      const image = item.querySelector("img")?.src || "";
+      const item = anchor.closest(".project-item");
+      const title = item.querySelector(".project-title")?.innerText || "Untitled";
+      const base = item.querySelector("img")?.src;
 
       modalTitle.innerText = title;
-      modalImage.src = image;
       modalDescription.innerText = "Detailed view of: " + title;
-      modalLink.href = "#";
+      modalLink.href = "#"; // Update this if you want external project links
+
+      slider.innerHTML = ""; // Clear previous slides
+
+      // Add dynamic images (ensure you have these images)
+      const images = [
+        base,
+        base.replace(".jpg", "-2.jpg"),
+        base.replace(".jpg", "-3.jpg")
+      ];
+
+      images.forEach((src) => {
+        const slide = document.createElement("div");
+        slide.className = "swiper-slide";
+        slide.innerHTML = `<img src="${src}" alt="">`;
+        slider.appendChild(slide);
+      });
+
+      // Destroy previous Swiper instance
+      if (swiperInstance) swiperInstance.destroy(true, true);
+
+      // Create new Swiper
+      swiperInstance = new Swiper(".mySwiper", {
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      });
 
       modal.style.display = "block";
     });
@@ -152,60 +184,6 @@ window.addEventListener('DOMContentLoaded', () => {
       modal.style.display = "none";
     }
   });
-});
-
-let swiperInstance; // track swiper per open
-
-document.querySelectorAll(".project-item > a").forEach((anchor) => {
-  anchor.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    const item = anchor.closest(".project-item");
-    const title = item.querySelector(".project-title")?.innerText || "Untitled";
-    const base = item.querySelector("img")?.src;
-
-    modalTitle.innerText = title;
-    modalDescription.innerText = "Detailed view of: " + title;
-    modalLink.href = "#"; // optional
-
-    const slider = document.getElementById("modalSlider");
-    slider.innerHTML = ""; // reset previous
-
-    // Add dynamic images for this project
-    const images = [
-      base,
-      base.replace(".jpg", "-2.jpg"),
-      base.replace(".jpg", "-3.jpg")
-    ];
-
-    images.forEach((src) => {
-      const slide = document.createElement("div");
-      slide.className = "swiper-slide";
-      slide.innerHTML = `<img src="${src}" alt="" />`;
-      slider.appendChild(slide);
-    });
-
-    // Destroy previous instance if exists
-    if (swiperInstance) swiperInstance.destroy(true, true);
-
-    // Create new swiper instance
-    swiperInstance = new Swiper(".mySwiper", {
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-    });
-
-    modal.style.display = "block";
-  });
-});
-
-document.querySelector(".modal .close").addEventListener("click", () => {
-  modal.style.display = "none";
 });
 
 
